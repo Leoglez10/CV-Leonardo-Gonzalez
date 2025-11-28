@@ -1,5 +1,13 @@
-import { Project, Skill, Education, SoftSkill } from './types';
 
+import { Project, SkillCategory, Education, SoftSkill } from './types';
+
+/**
+ * ARCHIVO DE DATOS (Data Source)
+ * --------------------------------
+ * Este archivo contiene toda la información que se muestra en el portafolio.
+ */
+
+// Información personal general
 export const personalInfo = {
   name: "Leonardo Elias Gonzalez Rangel",
   role: "Estudiante de Ingeniería en Computación",
@@ -10,6 +18,7 @@ export const personalInfo = {
   about: "Estudiante de Ingeniería en Computación con experiencia en desarrollo web y un fuerte interés en la tecnología. Manejo frontend con HTML y CSS, y tengo bases de backend con JavaScript, PHP, Python y MySQL. Me gusta aprender nuevas herramientas, optimizar procesos y mejorar la productividad. Soy una persona curiosa, autodidacta y enfocada en crear soluciones funcionales."
 };
 
+// Lista de Proyectos
 export const projects: Project[] = [
   {
     id: 1,
@@ -61,15 +70,60 @@ export const projects: Project[] = [
   }
 ];
 
-export const techSkills: Skill[] = [
-  { name: "HTML / CSS", level: 4, maxLevel: 5 },
-  { name: "Python", level: 3, maxLevel: 5 },
-  { name: "C / C++", level: 3, maxLevel: 5 },
-  { name: "JavaScript", level: 2, maxLevel: 5 },
-  { name: "PHP", level: 2, maxLevel: 5 },
-  { name: "MySQL", level: 2, maxLevel: 5 }, 
+// NUEVA ESTRUCTURA DE HABILIDADES TÉCNICAS (Categorías)
+// Aquí definimos los grupos: Frontend, Backend, DB, Otros.
+export const skillCategories: SkillCategory[] = [
+  {
+    id: 'frontend',
+    title: 'Frontend',
+    iconName: 'Layout', // Icono visual
+    skills: [
+      { 
+        name: "HTML / CSS", 
+        level: "Intermedio – Avanzado" 
+      },
+      { 
+        name: "JavaScript", 
+        level: "Básico – Intermedio" 
+      }
+    ]
+  },
+  {
+    id: 'backend',
+    title: 'Backend',
+    iconName: 'Server',
+    skills: [
+      { name: "PHP", level: "Básico" },
+      { name: "Python", level: "Básico" },
+      { name: "C / C++", level: "Fundamentos" }
+    ]
+  },
+  {
+    id: 'database',
+    title: 'Bases de Datos',
+    iconName: 'Database',
+    skills: [
+      { 
+        name: "MySQL", 
+        level: "Intermedio",
+        // Aquí agregamos los detalles técnicos específicos que pediste
+        description: "Consultas SQL, joins, creación de tablas, relaciones, índices básicos"
+      }
+    ]
+  },
+  {
+    id: 'others',
+    title: 'Herramientas y Otros',
+    iconName: 'Cpu',
+    skills: [
+      { name: "Git y GitHub", level: "Control de versiones" },
+      { name: "Linux / Windows", level: "Sistemas Operativos" },
+      { name: "Uso de IA", level: "Desarrollo y productividad" }
+    ]
+  }
 ];
 
+// Habilidades Blandas (aparecen como lista)
 export const softSkills: SoftSkill[] = [
   { name: "Resolución de problemas" },
   { name: "Pensamiento lógico" },
@@ -79,6 +133,7 @@ export const softSkills: SoftSkill[] = [
   { name: "Puntualidad" }
 ];
 
+// Educación
 export const education: Education[] = [
   {
     institution: "Centro Universitario de Ciencias Exactas e Ingenierías (CUCEI)",
@@ -100,6 +155,7 @@ export const education: Education[] = [
   }
 ];
 
+// Idiomas
 export const languages = [
   { name: "Español", level: "Lengua materna" },
   { name: "Inglés", level: "B2 – Intermedio superior" }

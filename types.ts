@@ -1,3 +1,4 @@
+
 export interface Project {
   id: number;
   title: string;
@@ -7,9 +8,26 @@ export interface Project {
   image: string;
 }
 
+// Interfaz para un item individual de habilidad (ej: "HTML/CSS")
+export interface SkillItem {
+  name: string;
+  level?: string; // Ej: "Intermedio-Avanzado"
+  description?: string; // Ej: "Consultas SQL, joins..." para detalles extra
+}
+
+// Interfaz para una categoría completa (ej: "Frontend")
+export interface SkillCategory {
+  id: string;
+  title: string;
+  iconName: 'Layout' | 'Server' | 'Database' | 'Cpu'; // Nombres de iconos mapeados
+  skills: SkillItem[];
+}
+
+// Mantenemos esta por compatibilidad si se usa en otros lados, 
+// pero principalmente usaremos SkillCategory ahora.
 export interface Skill {
   name: string;
-  level: number; // 1 to 5
+  level: number; 
   maxLevel: number;
 }
 

@@ -2,12 +2,18 @@ import React from 'react';
 import { personalInfo, education, languages } from '../data';
 import { GraduationCap, BookOpen, User, Languages } from 'lucide-react';
 
+/**
+ * Componente About (Sobre Mí)
+ * Muestra el perfil profesional, educación e idiomas.
+ */
 const About: React.FC = () => {
   return (
-    <section id="about" className="py-20 bg-white">
+    // 'scroll-mt-20' crea un margen superior al hacer scroll hacia este ID,
+    // evitando que el menú fijo tape el título de la sección.
+    <section id="about" className="py-20 bg-white scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Profile Header */}
+        {/* Encabezado del Perfil */}
         <div className="mb-16">
           <div className="flex items-center mb-4">
             <User className="text-primary-600 mr-2" size={24} />
@@ -21,22 +27,24 @@ const About: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          {/* Education Column */}
+          {/* Columna Izquierda: Educación */}
           <div>
             <div className="flex items-center mb-8">
               <GraduationCap className="text-primary-600 mr-2" size={24} />
               <h3 className="text-2xl font-bold text-slate-900">Estudios</h3>
             </div>
             
+            {/* Línea de tiempo de estudios */}
             <div className="space-y-8 border-l-2 border-slate-200 ml-3 pl-8 relative">
               {education.map((edu, index) => (
                 <div key={index} className="relative">
-                  {/* Timeline dot */}
+                  {/* Punto en la línea de tiempo */}
                   <span className="absolute -left-[41px] top-1 bg-white border-4 border-primary-500 w-6 h-6 rounded-full"></span>
                   
                   <h4 className="text-xl font-bold text-slate-800">{edu.degree}</h4>
                   <p className="text-primary-600 font-medium mb-1">{edu.institution}</p>
                   <p className="text-sm text-slate-500 mb-2 italic">{edu.period}</p>
+                  {/* Lista de detalles si existen */}
                   {edu.details && (
                     <ul className="list-disc list-inside text-slate-600 text-sm">
                       {edu.details.map((detail, idx) => (
@@ -49,10 +57,10 @@ const About: React.FC = () => {
             </div>
           </div>
 
-          {/* Languages & Objective Column */}
+          {/* Columna Derecha: Idiomas y Objetivo */}
           <div className="space-y-12">
             
-            {/* Languages */}
+            {/* Sección de Idiomas */}
             <div>
               <div className="flex items-center mb-6">
                 <Languages className="text-primary-600 mr-2" size={24} />
@@ -70,7 +78,7 @@ const About: React.FC = () => {
               </div>
             </div>
 
-            {/* Objective */}
+            {/* Sección de Objetivo Profesional */}
             <div>
               <div className="flex items-center mb-6">
                 <BookOpen className="text-primary-600 mr-2" size={24} />

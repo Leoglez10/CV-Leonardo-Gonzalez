@@ -1,13 +1,19 @@
 import React from 'react';
 import { personalInfo } from '../data';
-import { Mail, Phone, Linkedin, MapPin, ExternalLink } from 'lucide-react';
+import { Mail, Phone, Linkedin, MapPin } from 'lucide-react';
 
+/**
+ * Componente Contact (Contacto y Pie de página)
+ * Muestra la información de contacto y enlaces a redes.
+ */
 const Contact: React.FC = () => {
   return (
-    <footer id="contact" className="bg-slate-900 text-white pt-20 pb-10">
+    // Pie de página con ID 'contact' para navegación
+    <footer id="contact" className="bg-slate-900 text-white pt-20 pb-10 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid md:grid-cols-2 gap-12 mb-16">
+          {/* Información de Contacto Directo */}
           <div>
             <h2 className="text-3xl font-bold mb-6">Contáctame</h2>
             <p className="text-slate-400 text-lg mb-8 max-w-md">
@@ -16,14 +22,17 @@ const Contact: React.FC = () => {
             </p>
             
             <div className="space-y-4">
+              {/* Ubicación */}
               <div className="flex items-center text-slate-300">
                 <MapPin className="mr-4 text-primary-500" size={20} />
                 <span>{personalInfo.location}</span>
               </div>
+              {/* Teléfono (enlace 'tel:') */}
               <a href={`tel:${personalInfo.phone}`} className="flex items-center text-slate-300 hover:text-white transition-colors">
                 <Phone className="mr-4 text-primary-500" size={20} />
                 <span>{personalInfo.phone}</span>
               </a>
+              {/* Email (enlace 'mailto:') */}
               <a href={`mailto:${personalInfo.email}`} className="flex items-center text-slate-300 hover:text-white transition-colors">
                 <Mail className="mr-4 text-primary-500" size={20} />
                 <span>{personalInfo.email}</span>
@@ -31,6 +40,7 @@ const Contact: React.FC = () => {
             </div>
           </div>
 
+          {/* Caja de Redes Sociales (LinkedIn) */}
           <div className="flex flex-col justify-center items-start md:items-end">
              <div className="bg-slate-800 p-8 rounded-2xl border border-slate-700 w-full md:w-auto">
                 <h3 className="text-xl font-bold mb-4">Conectemos en LinkedIn</h3>
@@ -50,6 +60,7 @@ const Contact: React.FC = () => {
           </div>
         </div>
 
+        {/* Derechos de autor y créditos */}
         <div className="border-t border-slate-800 pt-8 mt-8 text-center text-slate-500 text-sm">
           <p>&copy; {new Date().getFullYear()} {personalInfo.name}. Todos los derechos reservados.</p>
           <p className="mt-2">Diseñado con React & Tailwind CSS.</p>
