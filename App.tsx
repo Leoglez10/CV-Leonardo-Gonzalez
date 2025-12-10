@@ -1,25 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
+import { ArrowUp } from 'lucide-react';
 
 /**
  * Componente Principal (App)
  * Estructura la aplicación organizando los componentes en orden vertical.
- * El flujo de la página es:
- * 1. Navbar (Menú superior fijo)
- * 2. Hero (Sección de bienvenida)
- * 3. About (Sobre mí / Perfil)
- * 4. Projects (Galería de proyectos)
- * 5. Skills (Competencias)
- * 6. Contact (Pie de página con contacto)
+ * Incluye un botón flotante para volver arriba.
  */
 const App: React.FC = () => {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Efecto para mostrar/ocultar el botón de scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      // Si baja más de 400px, muestra el botón
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Función para volver arriba suavemente
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
-    <div className="min-h-screen flex flex-col font-sans">
+    <div className="min-h-screen flex flex-col font-sans relative">
       <Navbar />
       <main className="flex-grow">
         <Hero />
@@ -28,6 +48,17 @@ const App: React.FC = () => {
         <Skills />
       </main>
       <Contact />
+
+      {/* Botón Flotante "Volver Arriba" */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-8 right-8 p-3 rounded-full bg-primary-600 text-white shadow-lg shadow-primary-500/40 hover:bg-primary-700 transition-all duration-300 z-40 ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        }`}
+        aria-label="Volver arriba"
+      >
+        <ArrowUp size={24} />
+      </button>
     </div>
   );
 };

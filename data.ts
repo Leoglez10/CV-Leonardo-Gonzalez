@@ -21,6 +21,22 @@ export const personalInfo = {
 // Lista de Proyectos
 export const projects: Project[] = [
   {
+    id: 8,
+    title: "Sala de Urgencias (Full Stack)",
+    description: "Sistema administrativo completo para urgencias hospitalarias. Gestiona el ingreso y seguimiento de pacientes conectándose a una base de datos real (MySQL). Incluye un dashboard analítico con gráficas estadísticas para la visualización de datos y toma de decisiones.",
+    url: "https://saladeurgencias.xo.je/",
+    tags: ["MySQL", "Database", "Dashboard", "Data Viz"],
+    image: "https://picsum.photos/id/48/600/400" // Imagen corporativa/tech
+  },
+  {
+    id: 7,
+    title: "El Impostor (Juego Online)",
+    description: "¡Un emocionante juego de estrategia y deducción! Pon a prueba tu astucia para descubrir quién es el impostor en este desafío interactivo. Aunque es pura diversión, está respaldado por la potente infraestructura de Google Cloud Run para asegurar partidas fluidas y escalables.",
+    url: "https://el-impostor-839098521388.us-west1.run.app/",
+    tags: ["Game Dev", "Google Cloud", "Cloud Run", "Docker"],
+    image: "https://picsum.photos/id/0/600/400"
+  },
+  {
     id: 1,
     title: "Freelancer Personal",
     description: "Página web de portafolio personal diseñada desde cero.",
@@ -116,6 +132,7 @@ export const skillCategories: SkillCategory[] = [
     title: 'Herramientas y Otros',
     iconName: 'Cpu',
     skills: [
+      { name: "Google Cloud Platform", level: "Cloud & Deploy" },
       { name: "Git y GitHub", level: "Control de versiones" },
       { name: "Linux / Windows", level: "Sistemas Operativos" },
       { name: "Uso de IA", level: "Desarrollo y productividad" }
