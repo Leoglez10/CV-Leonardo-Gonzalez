@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -35,6 +36,34 @@
     <style>
       html {
         scroll-behavior: smooth;
+        transition: filter 0.3s ease, font-size 0.3s ease;
+      }
+      
+      /* Accessibility Classes */
+      html.text-large {
+        font-size: 120%;
+      }
+      
+      html.high-contrast {
+        filter: contrast(130%);
+      }
+      
+      html.grayscale-mode {
+        filter: grayscale(100%);
+      }
+      
+      html.reduce-motion *,
+      html.reduce-motion *::before,
+      html.reduce-motion *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+
+      /* Focus styles for keyboard navigation */
+      :focus-visible {
+        outline: 3px solid #0ea5e9;
+        outline-offset: 2px;
       }
     </style>
   <script type="importmap">

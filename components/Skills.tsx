@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { skillCategories, softSkills } from '../data';
-import { BrainCircuit, CheckCircle2, Layout, Server, Database, Cpu } from 'lucide-react';
+import { BrainCircuit, CheckCircle2, Code2, Server, Database, Terminal } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 
 /**
@@ -13,11 +14,11 @@ const Skills: React.FC = () => {
   // Mapeo de strings a componentes de iconos reales de Lucide
   const getIcon = (iconName: string) => {
     switch (iconName) {
-      case 'Layout': return <Layout size={28} className="text-blue-500" />;
+      case 'Code2': return <Code2 size={28} className="text-blue-500" />;
       case 'Server': return <Server size={28} className="text-indigo-500" />;
       case 'Database': return <Database size={28} className="text-emerald-500" />;
-      case 'Cpu': return <Cpu size={28} className="text-purple-500" />;
-      default: return <Layout size={28} />;
+      case 'Terminal': return <Terminal size={28} className="text-purple-500" />;
+      default: return <Code2 size={28} />;
     }
   };
 
@@ -44,7 +45,7 @@ const Skills: React.FC = () => {
             <ScrollReveal width="100%" delay={100}>
               <h3 className="text-2xl font-bold text-slate-800 mb-8 flex items-center">
                 <span className="bg-primary-100 p-2 rounded-lg mr-3">
-                  <Cpu size={24} className="text-primary-600" />
+                  <Terminal size={24} className="text-primary-600" />
                 </span>
                 Tecnologías y Lenguajes
               </h3>

@@ -6,6 +6,10 @@ export interface Project {
   url: string;
   tags: string[];
   image: string;
+  // Campos opcionales para el modal de detalles
+  longDescription?: string;
+  features?: string[];
+  gallery?: string[]; // URLs adicionales de imágenes
 }
 
 // Interfaz para un item individual de habilidad (ej: "HTML/CSS")
@@ -19,7 +23,7 @@ export interface SkillItem {
 export interface SkillCategory {
   id: string;
   title: string;
-  iconName: 'Layout' | 'Server' | 'Database' | 'Cpu'; // Nombres de iconos mapeados
+  iconName: 'Code2' | 'Server' | 'Database' | 'Terminal'; // Nombres de iconos mapeados actualizados
   skills: SkillItem[];
 }
 
@@ -40,4 +44,14 @@ export interface Education {
 
 export interface SoftSkill {
   name: string;
+}
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  summary: string;
+  date: string;
+  image: string;
+  tags: string[];
+  content: string;
 }
