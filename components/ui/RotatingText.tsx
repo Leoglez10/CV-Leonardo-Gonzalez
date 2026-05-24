@@ -63,6 +63,16 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((props, ref)
     } = props;
 
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        setPrefersReducedMotion(mediaQuery.matches);
+
+        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+        mediaQuery.addEventListener('change', handler);
+        return () => mediaQuery.removeEventListener('change', handler);
+    }, []);
 
     const splitIntoCharacters = (text: string): string[] => {
         if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
@@ -183,10 +193,22 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((props, ref)
     );
 
     useEffect(() => {
-        if (!auto) return;
+        if (!auto || prefersReducedMotion) return;
         const intervalId = setInterval(next, rotationInterval);
         return () => clearInterval(intervalId);
-    }, [next, rotationInterval, auto]);
+    }, [next, rotationInterval, auto, prefersReducedMotion]);
+
+    if (prefersReducedMotion) {
+        return (
+            <motion.span
+                className={cn('text-rotate', mainClassName)}
+                {...rest}
+            >
+                <span className="text-rotate-sr-only">{texts[0]}</span>
+                <span aria-hidden="true">{texts[0]}</span>
+            </motion.span>
+        );
+    }
 
     return (
         <motion.span

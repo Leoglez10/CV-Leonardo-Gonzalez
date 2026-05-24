@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
+import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Certifications from './components/Certifications';
@@ -36,6 +37,12 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col font-sans relative selection:bg-primary-100 selection:text-primary-900">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-primary-600 focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400"
+      >
+        Saltar al contenido principal
+      </a>
 
       <AccessibilityMenu />
 
@@ -48,10 +55,11 @@ const App: React.FC = () => {
       />
 
       <Navbar />
-      <main className="flex-grow">
+      <main id="main-content" className="flex-grow">
         <Hero />
         <About />
         <AnimatedCounters />
+        <Experience />
         <Projects />
         <Skills />
         <Certifications />

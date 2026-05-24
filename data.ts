@@ -1,5 +1,5 @@
 
-import { Project, SkillCategory, Education, SoftSkill, Certification, Testimonial } from './types';
+import { Project, SkillCategory, Education, SoftSkill, Certification, Testimonial, Experience } from './types';
 
 /**
  * ARCHIVO DE DATOS (Data Source)
@@ -19,8 +19,56 @@ export const personalInfo = {
   facebook: "https://www.facebook.com/leo.elias.505",
   github: "https://github.com/Leoglez10",
   twitter: "https://x.com/leoelias_0",
-  about: "Estudiante de Ingeniería en Computación con experiencia en desarrollo web y un fuerte interés en la tecnología. Manejo frontend con HTML y CSS, y tengo bases de backend con JavaScript, PHP, Python y MySQL. Me gusta aprender nuevas herramientas, optimizar procesos y mejorar la productividad. Soy una persona curiosa, autodidacta y enfocada en crear soluciones funcionales."
+  about: "Estudiante de Ingeniería en Computación orientado a la arquitectura de software y al desarrollo Full-Stack, con experiencia práctica en aplicaciones web y de escritorio modernas. Apasionado por la inteligencia artificial, soy un usuario activo y promoter del uso de IA para optimizar procesos y mejorar la productividad. Me especializo en depuración de sistemas, mantenimiento de hardware y automatización de flujos de desarrollo. Soy un perfil técnico proactivo, con enfoque en crear soluciones eficientes, escalables y bien ejecutadas."
 };
+
+// Experiencia Laboral
+export const experiences: Experience[] = [
+  {
+    id: 1,
+    company: "Preparatoria 15 - Universidad de Guadalajara",
+    role: "Servicio Social - Desarrollador Full-Stack y Soporte Técnico",
+    location: "Guadalajara, México",
+    period: "Mar 2026 – Ago 2026",
+    duration: "6 meses",
+    description: [
+      "Desarrollé 2 aplicaciones: sistema de inventario y sistema de préstamo de equipos de cómputo",
+      "Soporte técnico integral: mantenimiento de hardware y software, reparación de equipos",
+      "Atención a alumnos e instalación de equipos de audio y video",
+      "Gestión y generación de reportes automatizados"
+    ],
+    icon: "Building2"
+  },
+  {
+    id: 2,
+    company: "Nexplea S.A. de C.V.",
+    role: "Desarrollador Full-Stack",
+    location: "Guadalajara, México",
+    period: "Feb 2026 – Feb 2026",
+    duration: "1 mes",
+    description: [
+      "Desarrollé sistema de generación de reportes socioeconómicos para clientes de recursos humanos",
+      "Implementé autenticación de usuarios, autoguardado en la nube y generación de documentos PDF",
+      "Integración con Firebase para manejo de archivos (imágenes y PDFs)",
+      "Uso de Docker para despliegue y React con Tailwind CSS para el frontend"
+    ],
+    icon: "Briefcase"
+  },
+  {
+    id: 3,
+    company: "Xignis - Guanajuato Nos Une",
+    role: "Desarrollador Frontend",
+    location: "Guanajuato, México",
+    period: "Abr 2026 – Abr 2026",
+    duration: "1 mes",
+    description: [
+      "Desarrollé página web guanajuatonosune.org para el gobierno de Guanajuato",
+      "Implementé formularios y base de datos para recopilación de información ciudadana",
+      "Proyecto publicado y mencionado en periódico local"
+    ],
+    icon: "Globe"
+  }
+];
 
 // Lista de Proyectos
 export const projects: Project[] = [
@@ -156,59 +204,113 @@ export const projects: Project[] = [
       "Cálculos matemáticos precisos",
       "Feedback visual inmediato según el resultado"
     ]
+  },
+  {
+    id: 10,
+    title: "P15 - Sistema de Control y Préstamo de Equipos",
+    description: "Aplicación de escritorio multiplataforma para la administración automatizada de préstamos de equipo informático.",
+    url: "#",
+    tags: ["Tauri", "React", "Vite", "SQLite", "Desktop"],
+    image: "/images/projects/p15-sistema.png",
+    longDescription: "Aplicación de escritorio multiplataforma construida con Tauri, React y Vite, integrada con SQLite para la administración automatizada de préstamos de equipo informático de la preparatoria. Incluye control de inventario y generación de reportes.",
+    features: [
+      "Aplicación de escritorio multiplataforma con Tauri",
+      "Base de datos SQLite local",
+      "Sistema de inventario automatizado",
+      "Generación de reportes de préstamos"
+    ]
+  },
+  {
+    id: 11,
+    title: "Guanajuato Nos Une",
+    description: "Diseño e implementación de interfaz web de alto impacto visual y rendimiento para el gobierno de Guanajuato.",
+    url: "https://guanajuatonosune.org",
+    tags: ["Government", "Web Design", "Forms", "Database"],
+    image: "/images/projects/guanajuato-nos-une.png",
+    longDescription: "Página web desarrollada para el gobierno de Guanajuato como parte del proyecto 'Guanajuato Nos Une'. Incluye formularios y base de datos para recopilación de información ciudadana. Proyecto publicado y mencionado en periódico local.",
+    features: [
+      "Interfaz web de alto impacto visual",
+      "Formularios para recopilación de información ciudadana",
+      "Base de datos para gestión de datos",
+      "Proyecto publicado en periódico local"
+    ]
+  },
+  {
+    id: 12,
+    title: "Generador SocioEconomicos Nexplea",
+    description: "Sistema de generación de reportes socioeconómicos para empresa especializada en reclutamiento y selección de recursos humanos.",
+    url: "#",
+    tags: ["React", "Tailwind CSS", "Supabase", "PDF"],
+    image: "/images/projects/generador-nexplea.png",
+    longDescription: "Sistema de generación de reportes socioeconómicos para empresa Nexplea especializada en reclutamiento y selección de recursos humanos, utilizando React, Tailwind CSS y Supabase para una experiencia de usuario fluida y eficiente.",
+    features: [
+      "Generación automatizada de reportes socioeconómicos",
+      "Autenticación de usuarios y autoguardado en la nube",
+      "Generación de documentos PDF",
+      "Integración con Firebase para manejo de archivos"
+    ]
   }
 ];
 
-// NUEVA ESTRUCTURA DE HABILIDADES TÉCNICAS (Categorías)
-// Aquí definimos los grupos: Frontend, Backend, DB, Otros.
+// ESTRUCTURA DE HABILIDADES TÉCNICAS (Categorías del CV)
 export const skillCategories: SkillCategory[] = [
   {
     id: 'frontend',
     title: 'Frontend',
-    iconName: 'Code2', // Updated to Code2
+    iconName: 'Code2',
     skills: [
-      {
-        name: "HTML / CSS",
-        level: "Intermedio – Avanzado"
-      },
-      {
-        name: "JavaScript",
-        level: "Básico – Intermedio"
-      }
+      { name: "React", level: "Avanzado" },
+      { name: "Next.js", level: "Intermedio" },
+      { name: "Tailwind CSS (v4)", level: "Avanzado" },
+      { name: "JavaScript (ES6+)", level: "Intermedio – Avanzado" },
+      { name: "HTML5 / CSS3", level: "Avanzado" },
+      { name: "Vite", level: "Intermedio" }
     ]
   },
   {
     id: 'backend',
-    title: 'Backend',
+    title: 'Backend & Cloud',
     iconName: 'Server',
     skills: [
-      { name: "PHP", level: "Básico" },
-      { name: "Python", level: "Básico" },
+      { name: "Python", level: "Intermedio" },
+      { name: "PHP", level: "Intermedio" },
+      { name: "Node.js", level: "Intermedio" },
+      { name: "Supabase", level: "Intermedio" },
+      { name: "Firebase", level: "Intermedio" },
       { name: "C / C++", level: "Fundamentos" }
     ]
   },
   {
     id: 'database',
-    title: 'Bases de Datos',
+    title: 'Bases de Datos & DevOps',
     iconName: 'Database',
     skills: [
-      {
-        name: "MySQL",
-        level: "Intermedio",
-        // Aquí agregamos los detalles técnicos específicos que pediste
-        description: "Consultas SQL, joins, creación de tablas, relaciones, índices básicos"
-      }
+      { name: "PostgreSQL", level: "Intermedio", description: "Consultas SQL, joins, creación de tablas, relaciones" },
+      { name: "MySQL", level: "Intermedio", description: "Consultas SQL, joins, creación de tablas, relaciones, índices básicos" },
+      { name: "SQLite", level: "Básico" },
+      { name: "Docker", level: "Intermedio", description: "Contenerización y despliegue de aplicaciones" },
+      { name: "Git / GitHub", level: "Control de versiones" }
     ]
   },
   {
-    id: 'others',
-    title: 'Herramientas y Otros',
-    iconName: 'Terminal', // Updated to Terminal
+    id: 'ai',
+    title: 'Herramientas de IA',
+    iconName: 'Terminal',
     skills: [
-      { name: "Google Cloud Platform", level: "Cloud & Deploy" },
-      { name: "Git y GitHub", level: "Control de versiones" },
-      { name: "Linux / Windows", level: "Sistemas Operativos" },
-      { name: "Uso de IA", level: "Desarrollo y productividad" }
+      { name: "IA Generativa", level: "Avanzado", description: "Amplio manejo de herramientas de IA generativa" },
+      { name: "Prompt Engineering", level: "Avanzado", description: "Generación de contenido visual y multimedia con IA" },
+      { name: "Automatización con IA", level: "Intermedio", description: "Automatización de procesos con inteligencia artificial" }
+    ]
+  },
+  {
+    id: 'hardware',
+    title: 'Sistemas & Hardware',
+    iconName: 'Server',
+    skills: [
+      { name: "Linux", level: "Intermedio" },
+      { name: "Windows", level: "Avanzado" },
+      { name: "Diagnóstico Electrónico", level: "Intermedio", description: "Diagnóstico de componentes de hardware" },
+      { name: "Mantenimiento", level: "Avanzado", description: "Mantenimiento de hardware y software" }
     ]
   }
 ];

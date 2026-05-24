@@ -107,7 +107,7 @@ const About: React.FC = () => {
                   <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
                   <div className="relative bg-zinc-950/50 p-6 rounded-xl backdrop-blur-sm">
                     <p className="text-zinc-300 leading-relaxed">
-                      Desarrollarme profesionalmente en el área de tecnología, especialmente en proyectos relacionados con desarrollo web, automatización y soporte técnico. Busco aplicar y ampliar mis conocimientos en programación, bases de datos y herramientas modernas, mientras aporto soluciones eficientes y sigo aprendiendo nuevas tecnologías.
+                      Integrarme a un equipo tecnológico como desarrollador full-stack donde pueda aplicar mis conocimientos en desarrollo web para contribuir a la innovación y automatización de procesos. Busco aportar soluciones escalables y eficientes que generen impacto positivo en la productividad del equipo, siempre en exploración de nuevas tecnologías y mejores prácticas de desarrollo.
                     </p>
                   </div>
                 </div>

@@ -23,7 +23,7 @@ export interface SkillItem {
 export interface SkillCategory {
   id: string;
   title: string;
-  iconName: 'Code2' | 'Server' | 'Database' | 'Terminal'; // Nombres de iconos mapeados actualizados
+  iconName: 'Code2' | 'Server' | 'Database' | 'Terminal' | 'BrainCircuit';
   skills: SkillItem[];
 }
 
@@ -54,6 +54,17 @@ export interface Certification {
   hours?: string;
   credentialUrl?: string;
   skills?: string[];
+}
+
+export interface Experience {
+  id: number;
+  company: string;
+  role: string;
+  location: string;
+  period: string;
+  duration: string;
+  description: string[];
+  icon: string;
 }
 
 export interface Testimonial {

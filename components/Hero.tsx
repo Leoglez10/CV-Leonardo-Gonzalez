@@ -94,21 +94,23 @@ const Hero: React.FC = () => {
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 cursor-pointer"
+      <motion.button
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 cursor-pointer bg-transparent border-0 p-0"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
         onClick={() => scrollToSection('about')}
+        aria-label="Desplazarse hacia abajo para descubrir más contenido"
       >
         <span className="text-xs text-zinc-400 uppercase tracking-widest font-medium">Descubre más</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          aria-hidden="true"
         >
           <ChevronDown size={24} className="text-zinc-400" />
         </motion.div>
-      </motion.div>
+      </motion.button>
 
 
 

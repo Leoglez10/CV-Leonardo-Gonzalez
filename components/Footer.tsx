@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-zinc-950 border-t border-white/10 text-white">
+    <footer className="bg-zinc-950 border-t border-white/10 text-white" role="contentinfo">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Grid principal — 3 columnas */}
         <div className="py-16 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
@@ -45,6 +45,7 @@ const Footer: React.FC = () => {
               href="#home"
               onClick={(e) => handleNavClick(e, '#home')}
               className="inline-block text-2xl font-bold tracking-tight mb-4 group"
+              aria-label="Volver al inicio"
             >
               LE<span className="text-primary-600 group-hover:text-primary-500 transition-colors">GR</span>.
             </a>

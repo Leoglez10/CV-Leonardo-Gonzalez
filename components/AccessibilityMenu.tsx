@@ -15,8 +15,36 @@ const AccessibilityMenu: React.FC = () => {
     reduceMotion: false,
     grayscale: false
   });
+  const menuRef = React.useRef<HTMLDivElement>(null);
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
 
-  // Aplicar cambios al elemento HTML root
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.addEventListener('mousedown', handleClickOutside);
+      const firstFocusable = menuRef.current?.querySelector<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      firstFocusable?.focus();
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     const html = document.documentElement;
 
@@ -31,7 +59,6 @@ const AccessibilityMenu: React.FC = () => {
 
     if (settings.grayscale) html.classList.add('grayscale-mode');
     else html.classList.remove('grayscale-mode');
-
   }, [settings]);
 
   const toggleSetting = (key: keyof typeof settings) => {
@@ -51,21 +78,26 @@ const AccessibilityMenu: React.FC = () => {
     <div className="fixed bottom-4 left-4 z-[9999]">
       {/* Botón Flotante Principal */}
       <button
+        ref={menuButtonRef}
         onClick={() => setIsOpen(!isOpen)}
         className="bg-slate-900 text-white p-3 rounded-full shadow-lg hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-primary-500 transition-transform hover:scale-105"
         aria-label="Opciones de Accesibilidad"
         aria-expanded={isOpen}
         aria-haspopup="true"
+        aria-controls="accessibility-menu"
       >
-        <Accessibility size={24} />
+        <Accessibility size={24} aria-hidden="true" />
       </button>
 
       {/* Menú de Opciones */}
       {isOpen && (
         <div
+          ref={menuRef}
+          id="accessibility-menu"
           className="absolute bottom-16 left-0 bg-zinc-950 border border-white/10 shadow-2xl rounded-xl p-4 w-64 animate-in slide-in-from-bottom-5 duration-200"
           role="dialog"
-          aria-label="Menú de herramientas de accesibilidad"
+          aria-modal="true"
+          aria-label="Herramientas de accesibilidad"
         >
           <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
             <h3 className="font-bold text-white flex items-center gap-2">
