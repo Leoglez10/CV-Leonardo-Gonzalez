@@ -1,89 +1,62 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es-MX" data-blueprint="off">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leonardo González | Desarrollo Full-Stack y Sistemas</title>
+    <meta name="description" content="Portafolio de Leonardo Elías González Rangel, estudiante de Ingeniería en Computación y desarrollador full-stack en Guadalajara, México." />
+    <meta name="author" content="Leonardo Elías González Rangel" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#f4f0e7" />
+    <meta name="color-scheme" content="light" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="https://leonardogonzalezcv.netlify.app/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- SEO Primary Tags -->
-  <title>Leonardo Elías González Rangel | Portafolio</title>
-  <meta name="description"
-    content="Portafolio de Leonardo Elías González Rangel — Estudiante de Ingeniería en Computación. Desarrollador Full Stack en formación. Creo experiencias digitales funcionales." />
-  <meta name="author" content="Leonardo Elías González Rangel" />
-  <meta name="keywords"
-    content="portafolio, desarrollador, full stack, ingeniería computación, React, Node.js, web developer" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://leonardogonzalezcv.netlify.app/" />
+    <meta property="og:title" content="Leonardo González | Desarrollo Full-Stack y Sistemas" />
+    <meta property="og:description" content="Productos digitales donde la lógica, la interfaz y la infraestructura funcionan como un solo sistema." />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content="Portafolio de Leonardo González" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Leonardo González | Desarrollo Full-Stack y Sistemas" />
+    <meta name="twitter:description" content="Portafolio de desarrollo full-stack, arquitectura de software y automatización." />
 
-  <!-- Theme Color -->
-  <meta name="theme-color" content="#0f172a" />
-  <meta name="color-scheme" content="dark" />
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://leonardogonzalez.dev/" />
-  <meta property="og:title" content="Leonardo Elías González Rangel | Portafolio" />
-  <meta property="og:description"
-    content="Portafolio de Leonardo Elías González Rangel — Estudiante de Ingeniería en Computación. Desarrollador Full Stack en formación." />
-  <meta property="og:image" content="https://leonardogonzalez.dev/og-image.png" />
-  <meta property="og:locale" content="es_MX" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@leoelias_0" />
-  <meta name="twitter:creator" content="@leoelias_0" />
-  <meta name="twitter:title" content="Leonardo Elías González Rangel | Portafolio" />
-  <meta name="twitter:description" content="Estudiante de Ingeniería en Computación. Desarrollador Full Stack en formación. Creo experiencias digitales funcionales." />
-  <meta name="twitter:image" content="https://leonardogonzalez.dev/og-image.png" />
-  <meta name="twitter:image:alt" content="Portafolio de Leonardo Elías González Rangel" />
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://leonardogonzalez.dev/" />
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-
-  <!-- Structured Data (JSON-LD) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Leonardo Elías González Rangel",
-    "jobTitle": "Estudiante de Ingeniería en Computación",
-    "description": "Estudiante de Ingeniería en Computación con experiencia en desarrollo web y un fuerte interés en la tecnología. Desarrollador Full Stack en formación.",
-    "url": "https://leonardogonzalez.dev",
-    "email": "leoeligr10@gmail.com",
-    "telephone": "+523322235248",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Guadalajara",
-      "addressRegion": "Jalisco",
-      "addressCountry": "MX"
-    },
-    "sameAs": [
-      "https://www.linkedin.com/in/leonardo-elias-gonzalez-rangel-442670289/",
-      "https://github.com/Leoglez10",
-      "https://x.com/leoelias_0",
-      "https://www.instagram.com/leoelias.10/"
-    ],
-    "knowsAbout": ["JavaScript", "React", "TypeScript", "HTML", "CSS", "Node.js", "MySQL", "Python", "PHP"],
-    "alumniOf": {
-      "@type": "EducationalOrganization",
-      "name": "Centro Universitario de Ciencias Exactas e Ingenierías (CUCEI)",
-      "sameAs": "https://www.cucei.udg.mx/"
-    }
-  }
-  </script>
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="/index.css" />
-</head>
-
-<body class="bg-black text-white">
-  <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
-
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Leonardo Elías González Rangel",
+        "jobTitle": "Estudiante de Ingeniería en Computación",
+        "url": "https://leonardogonzalezcv.netlify.app/",
+        "email": "mailto:leoeligr10@gmail.com",
+        "telephone": "+523322235248",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Guadalajara",
+          "addressCountry": "MX"
+        },
+        "sameAs": [
+          "https://github.com/Leoglez10",
+          "https://www.linkedin.com/in/leonardo-elias-gonzalez-rangel-442670289/",
+          "https://www.instagram.com/leoelias.10/"
+        ],
+        "knowsAbout": ["React", "JavaScript", "Node.js", "Python", "PostgreSQL", "Docker", "Software architecture"],
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Centro Universitario de Ciencias Exactas e Ingenierías"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>Este portafolio necesita JavaScript para cargar la interfaz interactiva.</noscript>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

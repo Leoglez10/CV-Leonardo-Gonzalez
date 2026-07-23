@@ -1,45 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://leonardogonzalez.dev/</loc>
-    <lastmod>2025-05-24</lastmod>
+    <loc>https://leonardogonzalezcv.netlify.app/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://leonardogonzalez.dev/#about</loc>
-    <lastmod>2025-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://leonardogonzalez.dev/#projects</loc>
-    <lastmod>2025-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://leonardogonzalez.dev/#skills</loc>
-    <lastmod>2025-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://leonardogonzalez.dev/#certifications</loc>
-    <lastmod>2025-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://leonardogonzalez.dev/#testimonials</loc>
-    <lastmod>2025-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://leonardogonzalez.dev/#cta</loc>
-    <lastmod>2025-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>
 </urlset>
