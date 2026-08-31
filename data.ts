@@ -58,6 +58,7 @@ export const projects: Project[] = [
     title: 'Análisis de Talento Inteligente',
     description: 'Convierte CV complejos en tableros accionables para apoyar procesos de selección basados en evidencia.',
     url: 'https://hr-intellect-cv-analyzer-mvp-250746262358.us-west1.run.app/',
+    repo: 'https://github.com/Leoglez10/HR-intellect',
     tags: ['IA', 'Analytics', 'Recruitment', 'Dashboard'],
     image: '/images/projects/talent-analysis-dashboard.png',
     featured: true,
@@ -88,6 +89,7 @@ export const projects: Project[] = [
     title: 'El Impostor',
     description: 'Juego web móvil de estrategia y deducción, desplegado en contenedores sobre Google Cloud Run.',
     url: 'https://el-impostor-839098521388.us-west1.run.app/',
+    repo: 'https://github.com/Leoglez10/el-impostor',
     tags: ['Game dev', 'Cloud Run', 'Docker'],
     image: '/images/projects/el-impostor.png',
     featured: true,
@@ -150,7 +152,102 @@ export const projects: Project[] = [
     tags: ['JavaScript', 'Validación', 'Cálculo'],
     image: '/images/projects/calculadora-imc.png',
   },
+  {
+    id: 13,
+    title: 'Tae Foto · Préstamo de Equipo',
+    description: 'Aplicación de escritorio offline para gestionar préstamos de equipo fotográfico y audiovisual en la Preparatoria 15.',
+    url: '#',
+    repo: 'https://github.com/Leoglez10/Tae-Foto-P15',
+    tags: ['Escritorio', 'Offline', 'JavaScript'],
+  },
+  {
+    id: 14,
+    title: 'Artecnología',
+    description: 'Sitio oficial de un estudio de diseño web y SEO en México, construido con React 19, Tailwind y animación con GSAP.',
+    url: '#',
+    repo: 'https://github.com/Leoglez10/artecnologia',
+    tags: ['React', 'Tailwind', 'GSAP', 'SEO'],
+  },
+  {
+    id: 15,
+    title: 'Tone · Sitio oficial',
+    description: 'Landing narrativa para presentar la obra, la editorial y el universo creativo del autor Ernesto González.',
+    url: '#',
+    repo: 'https://github.com/Leoglez10/Tone-pagina',
+    tags: ['Landing', 'React', 'Narrativa'],
+  },
+  {
+    id: 16,
+    title: 'Mujeres Aliadas · Prototipo',
+    description: 'Prototipo navegable de rediseño para cliente, con registro y consulta conectados a Frappe v15 y Frappe CRM.',
+    url: '#',
+    repo: 'https://github.com/Leoglez10/aliadas-demo',
+    tags: ['React', 'Frappe', 'Bun', 'Prototipo'],
+  },
+  {
+    id: 17,
+    title: 'Árbol Genealógico',
+    description: 'Visor y editor interactivo de un árbol familiar sin backend: el estado completo persiste en localStorage.',
+    url: '#',
+    repo: 'https://github.com/Leoglez10/arbol-genealogico',
+    tags: ['React', 'Vite', 'localStorage'],
+  },
+  {
+    id: 18,
+    title: 'Moodle2 · Rediseño CUCEI',
+    description: 'Ejercicio de rediseño de la interfaz de Moodle para la plataforma del centro universitario.',
+    url: '#',
+    repo: 'https://github.com/Leoglez10/Moodle2-CUCEI',
+    tags: ['Rediseño', 'UI', 'TypeScript'],
+  },
+  {
+    id: 19,
+    title: 'Convertidor de Imágenes',
+    description: 'Página para convertir imágenes entre los formatos PNG, JPG y WEBP.',
+    url: '#',
+    repo: 'https://github.com/Leoglez10/convertidor-imagenes-v1',
+    tags: ['JavaScript', 'Imágenes', 'Utilidad'],
+  },
 ];
+
+/**
+ * Broad strokes of the kind of work, replacing the per-project listing.
+ * Every line is backed by an entry in `experiences` or `projects`.
+ */
+export const workDomains = [
+  {
+    id: 'systems',
+    title: 'Sistemas internos y de operación',
+    body: 'Inventario, préstamo de equipo y generación de reportes en PDF para una preparatoria y para una empresa de recursos humanos. Software que alguien usa todos los días.',
+    stack: ['Tauri', 'React', 'SQLite', 'Docker'],
+  },
+  {
+    id: 'clients',
+    title: 'Producto web para clientes y gobierno',
+    body: 'Sitios, formularios y captura de información ciudadana. Incluye guanajuatonosune.org para el gobierno de Guanajuato, publicado y mencionado en prensa local.',
+    stack: ['React', 'Supabase', 'Tailwind', 'SEO'],
+  },
+  {
+    id: 'ai',
+    title: 'IA aplicada a procesos reales',
+    body: 'Análisis de CV para apoyar selección basada en evidencia, y automatización de flujos internos que antes se hacían a mano.',
+    stack: ['IA generativa', 'Analytics', 'Cloud Run'],
+  },
+  {
+    id: 'craft',
+    title: 'Interfaces, juegos y utilidades',
+    body: 'Juegos web desplegados en contenedores, landings narrativas y herramientas pequeñas que resuelven una sola cosa bien.',
+    stack: ['TypeScript', 'GSAP', 'SASS', 'Vite'],
+  },
+] as const;
+
+/** Public repository count. Bump it when it drifts; nothing fetches it at runtime. */
+export const githubProfile = {
+  handle: '@Leoglez10',
+  repositories: 25,
+  headline: 'Todo el código, a la vista.',
+  body: 'Casi todo lo que construyo termina en un repositorio público. Creo en el código abierto porque se aprende leyendo el trabajo de otros, así que dejo el mío disponible para quien quiera revisarlo, aprender de él o levantar un issue.',
+};
 
 export const skillCategories: SkillCategory[] = [
   {

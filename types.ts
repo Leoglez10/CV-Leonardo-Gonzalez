@@ -2,7 +2,10 @@ export interface Project {
   id: number;
   title: string;
   description: string;
+  /** Live deployment, or '#' when there is nothing public to open. */
   url: string;
+  /** Public source, when it exists. */
+  repo?: string;
   tags: string[];
   image?: string;
   featured?: boolean;
