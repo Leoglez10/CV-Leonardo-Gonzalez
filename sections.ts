@@ -9,6 +9,3 @@ export const SECTION_IDS = [
 ] as const;
 
 export type SectionId = (typeof SECTION_IDS)[number];
-
-export const isSectionId = (value: string): value is SectionId =>
-  (SECTION_IDS as readonly string[]).includes(value);

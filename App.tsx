@@ -1,4 +1,8 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
+import { useGSAP } from '@gsap/react';
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -12,26 +16,28 @@ import {
   Phone,
   X,
 } from 'lucide-react';
-import { certifications, education, experiences, languages, personalInfo, projects, skillCategories } from './data';
-import { isSectionId, SECTION_IDS, type SectionId } from './sections';
+import {
+  certifications,
+  education,
+  experiences,
+  githubProfile,
+  languages,
+  personalInfo,
+  skillCategories,
+  workDomains,
+} from './data';
+import { SECTION_IDS, type SectionId } from './sections';
+import { setScroll } from './scrollModel';
+import SystemPlotter from './components/SystemPlotter';
+import BlueprintOverlay from './components/BlueprintOverlay';
+import TimelinePlot from './components/TimelinePlot';
 
-type CanvasStatus = 'loading' | 'ready' | 'unavailable' | 'lost';
-
-function UnavailableCanvas({ onStatusChange }: { onStatusChange?: (status: CanvasStatus) => void }) {
-  useEffect(() => {
-    onStatusChange?.('unavailable');
-  }, [onStatusChange]);
-  return null;
-}
-
-const SystemCanvas = lazy(() =>
-  import('./components/SystemCanvas').catch(() => ({ default: UnavailableCanvas })),
-);
+gsap.registerPlugin(useGSAP, ScrollTrigger, ScrambleTextPlugin);
 
 const navItems = [
   ['Perfil', 'profile'],
   ['Experiencia', 'experience'],
-  ['Proyectos', 'work'],
+  ['Trabajo', 'work'],
   ['Capacidades', 'capabilities'],
   ['Formación', 'credentials'],
   ['Contacto', 'contact'],
@@ -41,52 +47,178 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [blueprint, setBlueprint] = useState(false);
   const [activeSection, setActiveSection] = useState<SectionId>('home');
+  const [activeDomain, setActiveDomain] = useState(0);
   const [copied, setCopied] = useState(false);
   const [portraitFailed, setPortraitFailed] = useState(false);
-  const [canvasStatus, setCanvasStatus] = useState<CanvasStatus>('loading');
 
-  const featuredProjects = useMemo(() => projects.filter((project) => project.featured), []);
-  const archivedProjects = useMemo(() => projects.filter((project) => !project.featured), []);
+  const activeIndex = useMemo(() => SECTION_IDS.indexOf(activeSection), [activeSection]);
 
-  useEffect(() => {
-    const updateProgress = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? window.scrollY / max : 0;
-      document.documentElement.style.setProperty('--scroll-progress', progress.toString());
-    };
+  useGSAP(() => {
+    const root = document.documentElement;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            (entry.target as HTMLElement).dataset.revealed = 'true';
-          }
-        });
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target.id && isSectionId(visible.target.id)) setActiveSection(visible.target.id);
+    // The only scroll reader on the page: it writes the CSS progress var and
+    // feeds the shared model that the WebGL loop consumes.
+    ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: (self) => {
+        root.style.setProperty('--scroll-progress', self.progress.toString());
+        setScroll(self.progress, self.getVelocity() / 1000);
       },
-      { rootMargin: '-32% 0px -52%', threshold: [0, 0.2, 0.5] },
-    );
+    });
 
     SECTION_IDS.forEach((id) => {
       const section = document.getElementById(id);
-      if (section) {
-        section.dataset.reveal = 'ready';
-        observer.observe(section);
-      }
+      if (!section) return;
+      section.dataset.reveal = 'ready';
+
+      const reveal = () => {
+        section.dataset.revealed = 'true';
+      };
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 85%',
+        once: true,
+        onEnter: reveal,
+        // Covers a reload that lands past this section (deep link, restored scroll).
+        onRefresh: (self) => {
+          if (self.progress > 0) reveal();
+        },
+      });
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 45%',
+        end: 'bottom 45%',
+        onToggle: (self) => {
+          if (self.isActive) setActiveSection(id);
+        },
+      });
     });
 
-    updateProgress();
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('scroll', updateProgress);
-      window.removeEventListener('resize', updateProgress);
-    };
-  }, []);
+    // Late-loading fonts shift the layout, which invalidates every start/end.
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
+  });
+
+  useGSAP(() => {
+    const media = gsap.matchMedia();
+
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      // "González" is drawn as an outline (color: transparent + text-stroke).
+      // Scrolling through the hero inks it in.
+      gsap.fromTo(
+        '.hero h1 span:last-child',
+        { color: 'rgba(16, 16, 15, 0)' },
+        {
+          color: 'rgba(16, 16, 15, 1)',
+          ease: 'none',
+          scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.5 },
+        },
+      );
+
+      // Each capability card resolves its skill levels out of noise, like an
+      // instrument settling on a reading.
+      gsap.utils.toArray<HTMLElement>('.capability-grid article').forEach((card) => {
+        const levels = gsap.utils.toArray<HTMLElement>('small', card);
+        ScrollTrigger.create({
+          trigger: card,
+          start: 'top 72%',
+          once: true,
+          onEnter: () => {
+            levels.forEach((level, index) => {
+              gsap.to(level, {
+                duration: 0.85,
+                delay: index * 0.07,
+                ease: 'none',
+                scrambleText: { text: level.textContent ?? '', chars: '01', speed: 0.7 },
+              });
+            });
+          },
+        });
+      });
+    });
+  });
+
+  useGSAP(() => {
+    const media = gsap.matchMedia();
+
+    media.add(
+      { isWide: '(min-width: 821px)', reduced: '(prefers-reduced-motion: reduce)' },
+      (context) => {
+        const { isWide, reduced } = context.conditions as { isWide: boolean; reduced: boolean };
+        // Below the rail breakpoint there is no second column to track.
+        if (!isWide) return;
+
+        const cards = gsap.utils.toArray<HTMLElement>('.work-domain');
+        // Everything in the rail is measured against this one line.
+        const readLine = () => window.innerHeight * 0.45;
+
+        // Two blocks can straddle the line at once. Pick the closest one
+        // instead of letting the last toggle win.
+        const nearestCard = () => {
+          const line = readLine();
+          let nearest = 0;
+          let shortest = Infinity;
+          cards.forEach((card, index) => {
+            const box = card.getBoundingClientRect();
+            const distance = Math.abs(box.top + box.height / 2 - line);
+            if (distance < shortest) {
+              shortest = distance;
+              nearest = index;
+            }
+          });
+          return nearest;
+        };
+
+        // The readout is observation, not motion, so it runs either way.
+        ScrollTrigger.create({
+          trigger: '.domain-list',
+          start: 'top bottom',
+          end: 'bottom top',
+          onUpdate: () => setActiveDomain(nearestCard()),
+          onRefresh: () => setActiveDomain(nearestCard()),
+        });
+
+        if (reduced) return;
+
+        // The only true scrub here: the fill tracks the grid across the same
+        // line the readout uses, 1:1 with scroll and no easing.
+        gsap.fromTo(
+          '.work-rail-track span',
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.domain-list',
+              start: 'top 45%',
+              end: 'bottom 45%',
+              scrub: 0.4,
+            },
+          },
+        );
+
+        // Cards rise with the scroll position instead of on a fixed timer.
+        cards.forEach((card) => {
+          gsap.fromTo(
+            card,
+            { y: 64 },
+            {
+              y: 0,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top bottom',
+                end: 'top 62%',
+                scrub: 0.6,
+              },
+            },
+          );
+        });
+      },
+    );
+  });
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -116,13 +248,8 @@ function App() {
   return (
     <div className="site-shell">
       <a className="skip-link" href="#main-content">Saltar al contenido principal</a>
-      <Suspense fallback={null}>
-        <SystemCanvas
-          blueprint={blueprint}
-          activeSection={activeSection}
-          onStatusChange={setCanvasStatus}
-        />
-      </Suspense>
+      <SystemPlotter activeIndex={activeIndex} />
+      <BlueprintOverlay active={blueprint} sectionId={activeSection} />
       <div className="paper-grid" aria-hidden="true" />
       <div className="scroll-meter" aria-hidden="true"><span /></div>
 
@@ -175,7 +302,7 @@ function App() {
               Construyo productos digitales donde la lógica, la interfaz y la infraestructura funcionan como un solo sistema.
             </p>
             <div className="hero-actions">
-              <a className="button button-primary" href="#work">Explorar proyectos <ArrowDownRight aria-hidden="true" /></a>
+              <a className="button button-primary" href="#work">Explorar el trabajo <ArrowDownRight aria-hidden="true" /></a>
               <a className="button button-quiet" href="#contact">Hablemos</a>
             </div>
           </div>
@@ -194,10 +321,10 @@ function App() {
                 </div>
               ) : (
                 <img
-                  src="/images/yo.png"
-                  alt="Retrato de Leonardo González sonriendo, con camiseta blanca"
-                  width="435"
-                  height="574"
+                  src="/images/foto-leo.webp"
+                  alt="Retrato de Leonardo González en una calle empedrada de Guanajuato"
+                  width="768"
+                  height="1024"
                   fetchPriority="high"
                   onError={() => setPortraitFailed(true)}
                 />
@@ -238,7 +365,9 @@ function App() {
             <p className="kicker">Registro de campo</p>
             <h2 id="experience-title">Experiencia que conecta producto y operación.</h2>
           </div>
-          <ol className="timeline">
+          <div className="timeline-stage">
+            <TimelinePlot />
+            <ol className="timeline">
             {experiences.map((experience, index) => (
               <li key={experience.id}>
                 <div className="timeline-marker"><span>{String(index + 1).padStart(2, '0')}</span></div>
@@ -253,56 +382,54 @@ function App() {
                 </article>
               </li>
             ))}
-          </ol>
+            </ol>
+          </div>
         </section>
 
         <section className="content-section section-shell" id="work" aria-labelledby="work-title">
-          <SectionIndex number="03" label="Trabajo seleccionado" />
+          <SectionIndex number="03" label="Trabajo" />
           <div className="section-heading work-heading">
             <div>
-              <p className="kicker">Módulos en producción</p>
-              <h2 id="work-title">Productos con una razón para existir.</h2>
+              <p className="kicker">A grandes rasgos</p>
+              <h2 id="work-title">Construyo cosas que alguien usa.</h2>
             </div>
-            <p>Una selección de sistemas que resuelven necesidades reales: operación, reclutamiento, servicio público y juego.</p>
+            <p>No colecciono demos. Cada cosa que construyo salió de una necesidad concreta: una preparatoria que llevaba su inventario en papel, un proceso de selección que tardaba días, un gobierno que necesitaba escuchar a sus ciudadanos.</p>
           </div>
 
-          <div className="project-grid">
-            {featuredProjects.map((project, index) => (
-              <article className={`project-card project-card-${index + 1}`} key={project.id}>
-                <div className="project-image">
-                  <img src={project.image} alt={`Vista del proyecto ${project.title}`} loading="lazy" width="1024" height="1024" />
-                  <span className="project-number">P/{String(index + 1).padStart(2, '0')}</span>
-                </div>
-                <div className="project-copy">
+          <div className="work-stage">
+            <aside className="work-rail" aria-hidden="true">
+              <span className="work-rail-count">D/{String(activeDomain + 1).padStart(2, '0')}</span>
+              <p className="work-rail-title">{workDomains[activeDomain]?.title}</p>
+              <div className="work-rail-track"><span /></div>
+              <span className="work-rail-total">{workDomains.length} frentes de trabajo</span>
+            </aside>
+
+            <div className="domain-list">
+              {workDomains.map((domain, index) => (
+                <article className="work-domain" key={domain.id}>
+                  <span className="domain-number">D/{String(index + 1).padStart(2, '0')}</span>
+                  <h3>{domain.title}</h3>
+                  <p>{domain.body}</p>
                   <div className="tag-list" aria-label="Tecnologías">
-                    {project.tags.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}
+                    {domain.stack.map((item) => <span key={item}>{item}</span>)}
                   </div>
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
-                  <a href={project.url} target="_blank" rel="noreferrer">Abrir proyecto <ArrowUpRight aria-hidden="true" /></a>
-                </div>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
           </div>
 
-          <details className="project-archive">
-            <summary><span>Archivo de proyectos</span><strong>{archivedProjects.length} módulos adicionales</strong></summary>
-            <div className="archive-list">
-              {archivedProjects.map((project) => {
-                const isPrivate = project.url === '#';
-                return (
-                  <article key={project.id}>
-                    <span>{String(project.id).padStart(2, '0')}</span>
-                    <div><h3>{project.title}</h3><p>{project.description}</p></div>
-                    <div className="archive-tags">{project.tags.slice(0, 3).join(' · ')}</div>
-                    {isPrivate ? <span className="private-label">Caso privado</span> : (
-                      <a href={project.url} target="_blank" rel="noreferrer" aria-label={`Abrir ${project.title}`}><ArrowUpRight aria-hidden="true" /></a>
-                    )}
-                  </article>
-                );
-              })}
+          <a className="github-card" href={personalInfo.github} target="_blank" rel="noreferrer">
+            <span className="github-mark" aria-hidden="true"><Github /></span>
+            <div className="github-copy">
+              <p className="github-eyebrow">{githubProfile.repositories} repositorios públicos · código abierto</p>
+              <strong>{githubProfile.headline}</strong>
+              <p className="github-body">{githubProfile.body}</p>
             </div>
-          </details>
+            <span className="github-cta">
+              <em>{githubProfile.handle}</em>
+              <span>Ver en GitHub <ArrowUpRight aria-hidden="true" /></span>
+            </span>
+          </a>
         </section>
 
         <section className="content-section section-shell" id="capabilities" aria-labelledby="capabilities-title">
@@ -386,8 +513,7 @@ function App() {
       {blueprint && (
         <div className="blueprint-hud" role="status" aria-live="polite" aria-atomic="true">
           <p><span>BLUEPRINT MODE</span> Sistema visible / núcleo LEGR</p>
-          <p>SECCIÓN: {activeSection.toUpperCase()} · RENDER: THREE.JS · DOM: SEMÁNTICO</p>
-          <p>CANVAS: {canvasStatus === 'ready' ? 'LISTO' : canvasStatus === 'lost' ? 'CONTEXTO PERDIDO' : canvasStatus === 'unavailable' ? 'NO DISPONIBLE' : 'INICIANDO'}</p>
+          <p>SECCIÓN: {activeSection.toUpperCase()} · RENDER: SVG + GSAP · DOM: SEMÁNTICO</p>
         </div>
       )}
     </div>
