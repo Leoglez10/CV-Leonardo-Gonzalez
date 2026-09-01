@@ -1,38 +1,26 @@
 import { useEffect, useMemo, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { useGSAP } from '@gsap/react';
 import {
   ArrowDownRight,
   ArrowUpRight,
-  Check,
-  Copy,
   Github,
-  Instagram,
-  Linkedin,
-  Mail,
   Menu,
-  Phone,
   X,
 } from 'lucide-react';
-import {
-  certifications,
-  education,
-  experiences,
-  githubProfile,
-  languages,
-  personalInfo,
-  skillCategories,
-  workDomains,
-} from './data';
+import { experiences, githubProfile, personalInfo, workDomains } from './data';
 import { SECTION_IDS, type SectionId } from './sections';
 import { setScroll } from './scrollModel';
 import SystemPlotter from './components/SystemPlotter';
+import ScrollDog from './components/ScrollDog';
 import BlueprintOverlay from './components/BlueprintOverlay';
 import TimelinePlot from './components/TimelinePlot';
+import StackTerminal from './components/StackTerminal';
+import EducationAxis from './components/EducationAxis';
+import PatchBay from './components/PatchBay';
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, ScrambleTextPlugin);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const navItems = [
   ['Perfil', 'profile'],
@@ -48,23 +36,17 @@ function App() {
   const [blueprint, setBlueprint] = useState(false);
   const [activeSection, setActiveSection] = useState<SectionId>('home');
   const [activeDomain, setActiveDomain] = useState(0);
-  const [copied, setCopied] = useState(false);
   const [portraitFailed, setPortraitFailed] = useState(false);
 
   const activeIndex = useMemo(() => SECTION_IDS.indexOf(activeSection), [activeSection]);
 
   useGSAP(() => {
-    const root = document.documentElement;
-
-    // The only scroll reader on the page: it writes the CSS progress var and
-    // feeds the shared model that the WebGL loop consumes.
+    // The only scroll reader on the page: it feeds the shared model the
+    // plotter and rails consume.
     ScrollTrigger.create({
       start: 0,
       end: 'max',
-      onUpdate: (self) => {
-        root.style.setProperty('--scroll-progress', self.progress.toString());
-        setScroll(self.progress, self.getVelocity() / 1000);
-      },
+      onUpdate: (self) => setScroll(self.progress, self.getVelocity() / 1000),
     });
 
     SECTION_IDS.forEach((id) => {
@@ -116,27 +98,6 @@ function App() {
           scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.5 },
         },
       );
-
-      // Each capability card resolves its skill levels out of noise, like an
-      // instrument settling on a reading.
-      gsap.utils.toArray<HTMLElement>('.capability-grid article').forEach((card) => {
-        const levels = gsap.utils.toArray<HTMLElement>('small', card);
-        ScrollTrigger.create({
-          trigger: card,
-          start: 'top 72%',
-          once: true,
-          onEnter: () => {
-            levels.forEach((level, index) => {
-              gsap.to(level, {
-                duration: 0.85,
-                delay: index * 0.07,
-                ease: 'none',
-                scrambleText: { text: level.textContent ?? '', chars: '01', speed: 0.7 },
-              });
-            });
-          },
-        });
-      });
     });
   });
 
@@ -235,23 +196,13 @@ function App() {
     document.documentElement.dataset.blueprint = blueprint ? 'on' : 'off';
   }, [blueprint]);
 
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(personalInfo.email);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
-      window.location.href = `mailto:${personalInfo.email}`;
-    }
-  };
-
   return (
     <div className="site-shell">
       <a className="skip-link" href="#main-content">Saltar al contenido principal</a>
       <SystemPlotter activeIndex={activeIndex} />
       <BlueprintOverlay active={blueprint} sectionId={activeSection} />
       <div className="paper-grid" aria-hidden="true" />
-      <div className="scroll-meter" aria-hidden="true"><span /></div>
+      <ScrollDog />
 
       <header className="site-header">
         <a className="brand" href="#home" aria-label="Inicio — Leonardo González">
@@ -308,7 +259,7 @@ function App() {
           </div>
           <figure className="hero-portrait">
             <div className="portrait-frame">
-              <span className="portrait-coordinate portrait-coordinate-top" aria-hidden="true">LEGR / 1999</span>
+              <span className="portrait-coordinate portrait-coordinate-top" aria-hidden="true">LEGR / 2005</span>
               {portraitFailed ? (
                 <div
                   className="portrait-fallback"
@@ -435,72 +386,29 @@ function App() {
         <section className="content-section section-shell" id="capabilities" aria-labelledby="capabilities-title">
           <SectionIndex number="04" label="Capacidades" />
           <div className="section-heading">
-            <p className="kicker">Circuitos de trabajo</p>
-            <h2 id="capabilities-title">Del píxel a la base de datos.<br />Sin perder la estructura.</h2>
+            <p className="kicker">Consulta el stack</p>
+            <h2 id="capabilities-title">Pregúntale<br />a la terminal.</h2>
           </div>
-          <div className="capability-grid">
-            {skillCategories.map((category, index) => (
-              <article key={category.id}>
-                <span className="capability-number">C{String(index + 1).padStart(2, '0')}</span>
-                <h3>{category.title}</h3>
-                <ul>{category.skills.map((skill) => <li key={skill.name}><span>{skill.name}</span><small>{skill.level}</small></li>)}</ul>
-              </article>
-            ))}
-          </div>
+          <StackTerminal />
         </section>
 
         <section className="content-section section-shell" id="credentials" aria-labelledby="credentials-title">
           <SectionIndex number="05" label="Formación" />
           <div className="section-heading">
-            <p className="kicker">Base verificable</p>
-            <h2 id="credentials-title">Aprendizaje formal y práctica constante.</h2>
+            <p className="kicker">Trayectoria trazada</p>
+            <h2 id="credentials-title">La formación no terminó: sigue corriendo.</h2>
           </div>
-          <div className="credentials-layout">
-            <div className="education-list">
-              {education.map((item, index) => (
-                <article key={item.institution}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <div><h3>{item.institution}</h3><p>{item.degree}</p></div>
-                  <p>{item.period}</p>
-                </article>
-              ))}
-            </div>
-            <aside className="credential-card">
-              <span>CURSO / {certifications[0].hours.toUpperCase()}</span>
-              <h3>{certifications[0].title}</h3>
-              <p>{certifications[0].description}</p>
-              <div className="language-list">
-                {languages.map((language) => <p key={language.name}><strong>{language.name}</strong><span>{language.level}</span></p>)}
-              </div>
-            </aside>
-          </div>
+          <EducationAxis />
         </section>
 
         <section className="contact-section section-shell" id="contact" aria-labelledby="contact-title">
           <SectionIndex number="06" label="Contacto" />
-          <div className="contact-grid">
-            <div>
-              <p className="kicker">Punto de enlace</p>
-              <h2 id="contact-title">¿Construimos algo que funcione de verdad?</h2>
-              <p>Estoy abierto a colaborar en productos web, herramientas internas y sistemas donde la claridad técnica importe.</p>
-            </div>
-            <div className="contact-actions">
-              <a className="email-link" href={`mailto:${personalInfo.email}`}>
-                <span>Escríbeme</span>{personalInfo.email}<ArrowUpRight aria-hidden="true" />
-              </a>
-              <button type="button" onClick={copyEmail} aria-live="polite">
-                {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
-                {copied ? 'Correo copiado' : 'Copiar correo'}
-              </button>
-              <div className="social-links">
-                <a href={personalInfo.github} target="_blank" rel="noreferrer"><Github aria-hidden="true" /> GitHub</a>
-                <a href={personalInfo.linkedin} target="_blank" rel="noreferrer"><Linkedin aria-hidden="true" /> LinkedIn</a>
-                <a href={personalInfo.instagram} target="_blank" rel="noreferrer"><Instagram aria-hidden="true" /> Instagram</a>
-                <a href={`tel:${personalInfo.phone.replace(/\s/g, '')}`}><Phone aria-hidden="true" /> {personalInfo.phone}</a>
-                <a href={`mailto:${personalInfo.email}`}><Mail aria-hidden="true" /> Email</a>
-              </div>
-            </div>
+          <div className="section-heading contact-heading">
+            <p className="kicker">Punto de enlace</p>
+            <h2 id="contact-title">¿Construimos algo que funcione de verdad?</h2>
+            <p>Estoy abierto a colaborar en productos web, herramientas internas y sistemas donde la claridad técnica importe.</p>
           </div>
+          <PatchBay />
         </section>
       </main>
 

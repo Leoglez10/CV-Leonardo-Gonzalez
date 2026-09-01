@@ -3,14 +3,15 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
-import { COMPACT_MEDIA_QUERY } from './systemChoreography';
 import { onScrollChange, scrollState } from '../scrollModel';
 import { SECTION_IDS } from '../sections';
 
 gsap.registerPlugin(useGSAP, DrawSVGPlugin, MotionPathPlugin);
 
-/** Width of the fixed band the plotter draws inside, in px. */
+/** Width of the fixed band the plotter draws inside, in px. Matches --rail. */
 const BAND = 118;
+/** Below this the page reclaims the gutter, so there is nowhere to draw. */
+const NO_RAIL_QUERY = '(max-width: 1199px)';
 const TOP = 104;
 const BOTTOM_GAP = 88;
 
@@ -66,7 +67,7 @@ export default function SystemPlotter({ activeIndex }: { activeIndex: number }) 
     const stopsGroup = stopsRef.current;
     if (!svg || !guide || !ink || !pen || !tilt || !stopsGroup) return;
 
-    const compact = window.matchMedia(COMPACT_MEDIA_QUERY);
+    const compact = window.matchMedia(NO_RAIL_QUERY);
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     let timeline: gsap.core.Timeline | null = null;
@@ -218,7 +219,7 @@ export default function SystemPlotter({ activeIndex }: { activeIndex: number }) 
       ref={svgRef}
       className="system-plotter"
       aria-hidden="true"
-      preserveAspectRatio="xMaxYMin meet"
+      preserveAspectRatio="xMinYMin meet"
       data-plotter="off"
     >
       <path ref={guideRef} className="plot-guide" fill="none" />

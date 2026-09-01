@@ -249,59 +249,65 @@ export const githubProfile = {
   body: 'Casi todo lo que construyo termina en un repositorio público. Creo en el código abierto porque se aprende leyendo el trabajo de otros, así que dejo el mío disponible para quien quiera revisarlo, aprender de él o levantar un issue.',
 };
 
+/**
+ * The capabilities terminal reads this directly: `id` doubles as the `--flag`
+ * a visitor can type, `name` is the command-line spelling shown in the output,
+ * and `level` (1 = fundamentos, 4 = avanzado) drives the meter. The level word
+ * beside the meter is derived from the number, never stored twice.
+ */
 export const skillCategories: SkillCategory[] = [
   {
     id: 'frontend',
     title: 'Frontend',
     skills: [
-      { name: 'React', level: 'Avanzado' },
-      { name: 'Next.js', level: 'Intermedio' },
-      { name: 'Tailwind CSS', level: 'Avanzado' },
-      { name: 'JavaScript', level: 'Intermedio — avanzado' },
-      { name: 'HTML / CSS', level: 'Avanzado' },
-      { name: 'Vite', level: 'Intermedio' },
+      { name: 'react', level: 4 },
+      { name: 'tailwind', level: 4 },
+      { name: 'html-css', level: 4 },
+      { name: 'javascript', level: 3 },
+      { name: 'next.js', level: 2 },
+      { name: 'vite', level: 2 },
     ],
   },
   {
     id: 'backend',
     title: 'Backend & Cloud',
     skills: [
-      { name: 'Python', level: 'Intermedio' },
-      { name: 'PHP', level: 'Intermedio' },
-      { name: 'Node.js', level: 'Intermedio' },
-      { name: 'Supabase', level: 'Intermedio' },
-      { name: 'Firebase', level: 'Intermedio' },
-      { name: 'C / C++', level: 'Fundamentos' },
+      { name: 'python', level: 2 },
+      { name: 'node', level: 2 },
+      { name: 'php', level: 2 },
+      { name: 'supabase', level: 2 },
+      { name: 'firebase', level: 2 },
+      { name: 'c-cpp', level: 1 },
     ],
   },
   {
-    id: 'data',
+    id: 'datos',
     title: 'Datos & DevOps',
     skills: [
-      { name: 'PostgreSQL', level: 'Intermedio' },
-      { name: 'MySQL', level: 'Intermedio' },
-      { name: 'SQLite', level: 'Básico' },
-      { name: 'Docker', level: 'Intermedio' },
-      { name: 'Git / GitHub', level: 'Control de versiones' },
+      { name: 'git', level: 4 },
+      { name: 'postgres', level: 2 },
+      { name: 'mysql', level: 2 },
+      { name: 'docker', level: 2 },
+      { name: 'sqlite', level: 1 },
     ],
   },
   {
-    id: 'ai',
+    id: 'ia',
     title: 'IA & Automatización',
     skills: [
-      { name: 'IA generativa', level: 'Avanzado' },
-      { name: 'Prompt engineering', level: 'Avanzado' },
-      { name: 'Automatización con IA', level: 'Intermedio' },
+      { name: 'ia-generativa', level: 4 },
+      { name: 'prompt-engineering', level: 4 },
+      { name: 'automatizacion', level: 2 },
     ],
   },
   {
-    id: 'systems',
+    id: 'sistemas',
     title: 'Sistemas & Hardware',
     skills: [
-      { name: 'Linux', level: 'Intermedio' },
-      { name: 'Windows', level: 'Avanzado' },
-      { name: 'Diagnóstico electrónico', level: 'Intermedio' },
-      { name: 'Mantenimiento', level: 'Avanzado' },
+      { name: 'windows', level: 4 },
+      { name: 'mantenimiento', level: 4 },
+      { name: 'linux', level: 2 },
+      { name: 'diagnostico-hardware', level: 2 },
     ],
   },
 ];
@@ -315,7 +321,7 @@ export const education: Education[] = [
   {
     institution: 'Colegio Unión México',
     degree: 'Bachillerato · Graduado con honores y presea al mejor estudiante de la generación',
-    period: 'Finalizado',
+    period: '2023',
   },
 ];
 

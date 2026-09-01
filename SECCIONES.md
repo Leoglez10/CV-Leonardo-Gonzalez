@@ -220,26 +220,51 @@ manual: nada consulta la API de GitHub en tiempo de ejecución.
 
 ### 04 — Capacidades · `#capabilities`
 
-**5 categorías** desde `skillCategories`:
+**24 skills** desde `skillCategories`, agrupadas en 5 categorías cuyo `id` es también la
+bandera que se puede escribir:
 
-| Categoría | Skills |
-|---|---|
-| Frontend | 6 — React, Next.js, Tailwind CSS, JavaScript, HTML/CSS, Vite |
-| Backend & Cloud | 6 — Python, PHP, Node.js, Supabase, Firebase, C/C++ |
-| Datos & DevOps | 5 — PostgreSQL, MySQL, SQLite, Docker, Git/GitHub |
-| IA & Automatización | 3 — IA generativa, prompt engineering, automatización |
-| Sistemas & Hardware | 4 — Linux, Windows, diagnóstico electrónico, mantenimiento |
+| Bandera | Categoría | Skills |
+|---|---|---|
+| `--frontend` | Frontend | 6 — react, tailwind, html-css, javascript, next.js, vite |
+| `--backend` | Backend & Cloud | 6 — python, node, php, supabase, firebase, c-cpp |
+| `--datos` | Datos & DevOps | 5 — git, postgres, mysql, docker, sqlite |
+| `--ia` | IA & Automatización | 3 — ia-generativa, prompt-engineering, automatizacion |
+| `--sistemas` | Sistemas & Hardware | 4 — windows, mantenimiento, linux, diagnostico-hardware |
 
-**Construcción.** Grid de 6 columnas donde cada tarjeta ocupa `span 2`, salvo la cuarta y la
-quinta que ocupan `span 3`. Resultado: tres tarjetas en la primera fila, dos anchas en la
-segunda. Las divisiones se dibujan con bordes del contenedor y de cada celda, sin `gap`, para
-que lea como una tabla técnica. Cada skill es una fila con el nombre a la izquierda y el nivel
-en monoespaciada a la derecha.
+**Construcción.** `components/StackTerminal.tsx` dibuja una terminal: rail de comandos a la
+izquierda (288px) y salida a la derecha. Es el único bloque oscuro del sitio (`--ink` de fondo,
+`--paper` de texto), y funciona como instrumento, no como tarjetero.
 
-**Las lecturas se resuelven desde ruido.** Al entrar cada tarjeta, `ScrambleTextPlugin`
-revuelve los niveles con `chars: '01'` y los va fijando escalonados: el grid lee como un
-instrumento estabilizando mediciones, no como texto que aparece. Corre una sola vez por
-tarjeta (`once: true`) y no corre bajo `prefers-reduced-motion`.
+**El prompt es un input real.** `resolve()` le quita el prefijo `stack `, y después acepta dos
+cosas: una bandera conocida (`--all`, `--top`, o el `id` de una categoría) o texto suelto, que
+hace substring match contra el nombre de la skill y el de su categoría. Así `react`, `sql` e
+`ia` caen todos en algún lado. Sin resultados, el pie se pone naranja y sugiere qué probar.
+
+**Los botones no tienen estado propio.** Cada comando sólo escribe en el input
+(`setQuery('stack ' + flag)`) y devuelve el foco ahí; el resaltado se deriva de la bandera que
+`resolve()` reconoció. Una sola fuente de verdad, imposible desincronizar el rail de la salida.
+
+**El nivel dejó de ser texto.** `SkillItem.level` es un número 1–4 y se dibuja como cuatro
+segmentos (`████` / `····`); en 4/4 el medidor va en naranja. La palabra al lado
+(*Fundamentos*, *Intermedio*, *Intermedio alto*, *Avanzado*) se **deriva** del número, no se
+guarda aparte, así que no pueden contradecirse. Debajo de 520px la palabra desaparece: el
+medidor ya dice lo mismo con menos texto.
+
+**Las lecturas se resuelven desde ruido.** Al entrar la salida, `ScrambleTextPlugin` revuelve
+las palabras de nivel con `chars: '01'` y las va fijando escalonadas. Corre una sola vez
+(`once: true`) y sólo bajo `prefers-reduced-motion: no-preference`.
+
+**Filtrar cambia la altura de la página**, lo que invalida los `start`/`end` de todo lo que
+está más abajo — el plotter y el perro los leen. Por eso un `useEffect` sobre `rows.length`
+llama a `ScrollTrigger.refresh()`.
+
+**GitHub en el pie.** La salida cierra con el conteo (`N de 24 · exit 0`) y un enlace al perfil
+con el número de repos públicos desde `githubProfile`. La sección nombra `git` como capacidad y
+en la misma línea ofrece la evidencia.
+
+**Responsive.** A 1100px el rail baja a 232px. A 820px el rail se vuelve una fila de chips de
+44px sobre la salida, y cada botón muestra sólo la bandera (el `stack ` se oculta). A 520px cae
+la columna de nivel.
 
 ---
 
@@ -272,14 +297,30 @@ Sólo se renderiza `certifications[0]`; el array está tipado `as const` y hoy t
 | Correo | `personalInfo.email` |
 | Teléfono | `personalInfo.phone` |
 | GitHub / LinkedIn / Instagram | `personalInfo.*` |
+| CV en PDF | `public/LeoCV.pdf` |
 
-**Construcción.** Grid `1.1fr / 0.9fr` alineado a `end`, con el `<h2>` en cobalto. La columna
-derecha apila el enlace de correo, un botón «Copiar correo» y los enlaces sociales con iconos
-de lucide-react.
+**Construcción.** Encabezado con el `<h2>` en cobalto y, debajo, `components/PatchBay.tsx`:
+un panel de conexión. A la izquierda un anclaje fijo y un conector arrastrable unidos por un
+cable SVG; a la derecha los siete canales, cada uno con su puerto. El cable se redibuja como
+una curva bézier con caída proporcional al alcance, así que cuelga como un cable de verdad.
 
-El botón de copiar usa `navigator.clipboard.writeText`; si falla, cae a `mailto:`. Muestra
-confirmación durante 1800 ms y el contenedor tiene `aria-live="polite"` para anunciarla.
-El teléfono se limpia con `replace(/\s/g, '')` antes de armar el `tel:`.
+**La interacción.** GSAP `Draggable` mueve el conector. Mientras se arrastra, se busca el
+puerto más cercano dentro de `CATCH_RADIUS` (62 px) y ese canal se marca con `data-armed`.
+Al soltar sobre un canal armado se dispara `control.click()` **de forma síncrona**, dentro
+del `pointerup`, para que el navegador siga contando la navegación como iniciada por el
+usuario; después el conector viaja al puerto y vuelve a casa con `elastic.out`. Si se suelta
+en el vacío, regresa sin abrir nada. Pasar el cursor (o el foco) por un canal dibuja el cable
+fantasma punteado que tomaría, sin mover el conector.
+
+**El arrastre es adorno, no la puerta.** Cada canal es un `<a>` real (o un `<button>` para
+copiar), así que el teclado y el toque abren exactamente lo mismo sin tocar el cable. Por eso
+el arrastre solo se monta con `matchMedia('(min-width: 821px) and (prefers-reduced-motion:
+no-preference)')`: debajo de ese ancho el cable se oculta, los canales se apilan y el pie del
+panel cambia de «Arrastra el conector» a «Elige un canal».
+
+El canal de copiar usa `navigator.clipboard.writeText`; si falla, cae a `mailto:`. La lectura
+de estado del encabezado (`SIN CONECTAR` / `CANAL X · ABIERTO` / `CORREO COPIADO`) tiene
+`aria-live="polite"`. El teléfono se limpia con `replace(/\s/g, '')` antes de armar el `tel:`.
 
 ---
 
@@ -307,8 +348,8 @@ un plano técnico de verdad: líneas de extensión, el tramo medido con marcas d
 puntas, y el valor en monoespaciada.
 
 **De dónde salen los números.** No son inventados. El overlay busca dentro de la sección
-activa el primer elemento con grid real (`.work-stage`, `.capability-grid`, `.profile-layout`,
-`.credentials-layout`, `.contact-grid`, `.timeline > li`, `.hero`) y lee su
+activa el primer elemento con grid real (`.work-stage`, `.stack-terminal`, `.profile-layout`,
+`.credentials-layout`, `.patch-stage`, `.timeline > li`, `.hero`) y lee su
 `gridTemplateColumns` **ya resuelto por el navegador**, que devuelve píxeles. En proyectos
 eso da `190px 1186px`; la cota general da `1440px` y la altura `1576px`. Son las medidas
 reales del layout.

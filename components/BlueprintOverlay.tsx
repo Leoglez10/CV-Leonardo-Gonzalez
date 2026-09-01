@@ -13,10 +13,10 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
 /** First match wins: the element whose grid best describes each section. */
 const GRID_TARGETS = [
   '.work-stage',
-  '.capability-grid',
+  '.stack-terminal',
   '.profile-layout',
   '.credentials-layout',
-  '.contact-grid',
+  '.patch-stage',
   '.timeline > li',
   '.hero',
 ];
