@@ -1,0 +1,40 @@
+# Leonardo Elías González Rangel
+
+> Desarrollador full-stack e ingeniero en computación en formación, con base en
+> Guadalajara, México. Construye aplicaciones web y de escritorio donde la lógica,
+> la interfaz y la infraestructura funcionan como un solo sistema.
+
+- Sitio: https://leonardogonzalezcv.netlify.app/
+- Correo: leoeligr10@gmail.com
+- Ubicación: Guadalajara, Jalisco, México
+- Idiomas: español (nativo), inglés
+
+## Stack
+
+React, TypeScript, JavaScript, Node.js, Python, Tauri, PostgreSQL, SQLite, Docker, Git y GitHub.
+
+## Experiencia
+
+- **Preparatoria 15 · Universidad de Guadalajara** — Servicio social en desarrollo full-stack y
+  soporte técnico (mar — ago 2026). Sistemas de inventario y de préstamo de equipo de cómputo,
+  mantenimiento de hardware y software, automatización de reportes.
+- **Nexplea S.A. de C.V.** — Desarrollador full-stack (feb 2026). Sistema de reportes
+  socioeconómicos para recursos humanos: autenticación, autoguardado en la nube, generación de PDF
+  y despliegue con Docker.
+- **Xignis · Guanajuato Nos Une** — Desarrollador frontend (abr 2026). guanajuatonosune.org para el
+  gobierno de Guanajuato, con formularios y base de datos de información ciudadana.
+
+## Proyectos
+
+- [Análisis de Talento Inteligente](https://github.com/Leoglez10/HR-intellect): convierte CV
+  complejos en tableros accionables para procesos de selección basados en evidencia.
+- P15 · Control y Préstamo de Equipos: aplicación de escritorio multiplataforma (Tauri, React,
+  Vite, SQLite) para inventario y préstamos de equipo informático.
+- [Guanajuato Nos Une](https://guanajuatonosune.org): interfaz web y captura de información
+  ciudadana para una iniciativa del gobierno de Guanajuato.
+
+## Enlaces
+
+- [Currículum en PDF](https://leonardogonzalezcv.netlify.app/LeoCV.pdf)
+- [GitHub](https://github.com/Leoglez10)
+- [LinkedIn](https://www.linkedin.com/in/leonardo-elias-gonzalez-rangel-442670289/)
